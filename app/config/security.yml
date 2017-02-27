@@ -7,7 +7,7 @@ security:
             memory:
                 users:
                     ccmferia:
-                        password: $2a$12$SNeIqBsVik1solKlwLXv7.lvJBoI6mQ7EnxJu.FGvmUmzE/mqmYPG
+                        password: $2a$12$BnQ4HBTWrBcV4o7wNURPrOiVwf39Zp8ow0LdIy/ULNCZzhcWNM3kC
                         roles: 'ROLE_ADMIN'
                     admin:
                         password: $2a$12$L4k/IkqiBjC4YhKu9kox2OyKRgO1qIytoQwW4Xe3WklTULdFUowqm

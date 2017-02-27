@@ -4,6 +4,19 @@
 
 {% block body %}
     <div class="container">
+
+
+
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <ol class="breadcrumb">
+            <li><a href="{{ path('registro_index')  }}">Solicitudes</a></li>
+            <li>{{ registro.nombre|title}} {{ registro.paterno|title}} {{ registro.materno }}</li>
+        </ol>
+
+    {% endif %}
+
+
     {% if app.session.flashbag.has('notice') %}
         <div class="alert alert-success" role="alert">
             <h4><i class="fa fa-check" aria-hidden="true"></i> {{ app.session.flashbag.get('notice').0 }}</h4>
