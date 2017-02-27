@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+   <div class="container">
+
+    {% if entity is defined %}
+        <div class="alert alert-dismissable alert-success">
+            <strong>
+                <i class="fa fa-check"></i>
+                {{ entity.nombre|title }} {{ entity.paterno|title }} {{ entity.materno|title }}</strong> hemos recibido tu registro.<br>
+            Te enviaremos un correo a la dirección que nos proporcionaste: <strong><i>{{ entity.mail }}</i></strong>
+            <br>
+            <p class="small">Si no recibes el correo de confirmación puedes verificar en tu bandeja de correos no deseados, si no lo has recibido puedes escribir a <strong>webmaster<i class="fa fa-at"></i>matmor.unam.mx</i></strong> para confirmar tu registro</p>
+        </div>
+    {% endif %}
+
+    {% if registro.id is defined %}
+        {#<a class="btn btn-success btn-lg btn-block" href="{{ path('registro_edit', { 'id': registro.id, 'mail': registro.mail }) }}">{{ registro.nombre |title}} {{ registro.paterno| title }} <br> modifica tu registro</a>#}
+
+        {% render controller("RegistroBundle:Registro:edit", {'id': registro.id, 'mail': registro.mail}) %}
+
+    {% else  %}
+
+       <div class="row">
+           <div class="text-center">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registronewModal" >
+            <i class="fa fa-plus"></i> Nuevo registro
+        </button>
+
+        <a class="btn btn-danger btn-lg " data-toggle="modal" data-target=".bs-example-modal-sm" ><i class="fa fa-edit"></i> Actividades</a>
+       </div>
+    </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="registronewModal" tabindex="-1" role="dialog" aria-labelledby="registronewModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="registronewModalLabel">Nuevo registro</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% render(controller('RegistroBundle:Registro:new')) %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+
+    {% if form is defined %}
+
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-md">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Busca tu registro</h4>
+                    </div>
+
+                    {{ form_start(form) }}
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <div class="form-group">
+
+                                        <div>
+                                            {{ form_label(form.email) }}
+                                        </div>
+                                        <div>
+                                            {{ form_widget(form.email, {'attr': {'class': 'form-control input-sm'} } ) }}
+                                        </div>
+                                        <div>{{ form_errors(form.email) }}</div>
+
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-lg-offset-5">
+
+                                                <input type="submit" value="Buscar" class="btn btn-success" />
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div></div></div></div>
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

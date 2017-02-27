@@ -1,0 +1,195 @@
+{% extends 'base.html.twig' %}
+
+{% block nav %}
+    <li class="active"><a href="#">Registros</a></li>
+    <li><a data-toggle="modal" data-target="#correos">Correos</a></li>
+{% endblock %}
+
+{% block navr %}
+    <li class="active"><a href="{{ path('logout') }}">Logout<span class="sr-only">(current)</span></a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-md-2">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">{{ registros|length }}</span>
+                        Registros
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        {% set vegetarianos = 0 %}
+                        {% for registro in registros %}
+                            {% if registro.comida == true %}
+                                {% set vegetarianos = vegetarianos + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        <span class="badge">{{ vegetarianos }}</span>
+                        Vegetarianos
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover table-condensed" id="example">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>email</th>
+                    <th>Institución</th>
+                    <th>Carrera</th>
+                    <th>Matutino</th>
+                    <th>Vespertino</th>
+                    <th>Vegetariana</th>
+                    <th>Playera</th>
+                    <th>Talla</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for registro in registros %}
+                    <tr>
+                        <td><a href="{{ path('registro_edit', { 'id': registro.id, 'mail': registro.mail }) }}">{{ registro.id }}</a></td>
+                        <td>{{ registro.paterno |title ~ ' ' ~ registro.materno |title ~ ' ' ~ registro.nombre |title }}</td>
+                        <td>{{ registro.mail }}</td>
+                        <td>{{ registro.institucion }}</td>
+                        <td>{{ registro.carrera }}</td>
+                        <td>{% for key,value in registro.actividadm if value %}
+                                {{ key |title}}
+                                <br>
+                            {% endfor %}
+                        </td>
+                        <td>{% for key,value in registro.actividadv if value %}
+                                {{ key |title}}
+                                <br>
+                            {% endfor %}
+                        </td>
+                        <td>{% if registro.comida == true %}
+                                <span class="label label-success">Si</span>
+                            {% else %}
+                                <span class="label label-danger">No</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">{% if registro.sexo == true %}
+                                <span class="label label-primary "><i class="fa fa-check-square"></i> Hombre</span>
+                            {% elseif registro.sexo is null %}
+                                <span class="label label-warning "><i class="fa fa-check-exclamation"></i> <i class="fa fa-exclamation-circle"></i> Pendiente</span>
+                            {% elseif registro.sexo == false %}
+                                <span class="label label-info "><i class="fa fa-check-square"></i> Mujer</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ registro.playera }}</td>
+                        <td class="text-center">
+                            <a href="{{ path('registro_edit', { 'id': registro.id, 'mail': registro.mail }) }}"><i class="fa fa-pencil"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="correos">
+        <div class="modal-dialog modal-lg" id="correos">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">Correos</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {% set total = 0 %}
+                            {% for registro in registros %}
+                                {{ registro.mail }},
+                                {% set total = total + 1 %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <br><br><strong>{{ total }} registros</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.1.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.1.1/js/buttons.bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/buttons/1.1.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/buttons/1.1.1/js/buttons.print.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/buttons/1.1.1/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/plug-ins/380cb78f450/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" class="init">
+        $(document).ready(function() {
+            $('#example').dataTable( {
+                lengthChange: false,
+                pageLength: 50,
+                dom: 'Bfrtip',
+
+                buttons: [
+                    {
+                        text: '<i class="fa fa-files-o"></i>',
+                        titleAttr: 'Copiar',
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        text: '<i class="fa fa-file-text-o"></i>',
+                        titleAttr: 'CSV separado por comas',
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                        fieldSeparator: ',',
+                        extension: '.csv'
+                    },
+
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fa fa-file-pdf-o"></i>',
+                        titleAttr: 'PDF',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend:'colvis',
+                        text: 'Columnas'
+                    }
+
+                ],
+                "pagingType": "full_numbers",
+                "language": {
+                    buttons: {
+                        copyTitle: 'Copiado al portapapeles',
+                    },
+                    url: '//cdn.datatables.net/plug-ins/380cb78f450/i18n/Spanish.json'
+                }
+            } );
+
+        } );
+    </script>
+{% endblock %}

@@ -1,0 +1,13 @@
+Feria Matemática 2017
+
+Hemos recibido tu información sobre las actividades que has seleccionado
+
+Nombre: {{ entity.nombre|title }} {{ entity.paterno|title }} {{ entity.materno|title }}
+
+Actividad horario matutino:{% for key,value in entity.actividadm if value %} {{ key |title}} {% endfor %}
+
+Actividad horario vespertino:{% for key,value in entity.actividadv if value %} {{ key |title}} {% endfor %}
+
+¿Deseas comida vegetariana?: {% if entity.comida == true %} Si {% else %} No {% endif %}
+
+Playera:{% if entity.sexo == true %} Hombre {% elseif entity.sexo is null %} No seleccionado {% elseif entity.sexo == false %} Mujer {% endif %},{{ entity.playera }}

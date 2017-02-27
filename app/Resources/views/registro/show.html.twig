@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Registro</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ registro.id }}</td>
+            </tr>
+            <tr>
+                <th>Paterno</th>
+                <td>{{ registro.paterno }}</td>
+            </tr>
+            <tr>
+                <th>Materno</th>
+                <td>{{ registro.materno }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ registro.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>{{ registro.mail }}</td>
+            </tr>
+            <tr>
+                <th>Institucion</th>
+                <td>{{ registro.institucion }}</td>
+            </tr>
+            <tr>
+                <th>Carrera</th>
+                <td>{{ registro.carrera }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('registro_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('registro_edit', { 'id': registro.id, 'mail':registro.mail}) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

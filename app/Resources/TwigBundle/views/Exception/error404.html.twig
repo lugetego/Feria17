@@ -1,0 +1,11 @@
+{# app/Resources/TwigBundle/views/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h3> Registro no encontrado</h3>
+        <div class="well center-block" style='max-width:500px; padding: .5cm .5cm .5cm .5cm;'>
+                <a class="btn btn-primary btn-md btn-block" href="{{ path('registro_inicio') }}">Regresar</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,235 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme edit_form 'registro/form_errors.html.twig' %}
+
+{% block body %}
+    <div class="container">
+    {% if app.session.flashbag.has('notice') %}
+        <div class="alert alert-success" role="alert">
+            <h4><i class="fa fa-check" aria-hidden="true"></i> {{ app.session.flashbag.get('notice').0 }}</h4>
+            <p>Se ha enviado un correo de confirmación a la dirección que nos proporcionaste: <strong>{{ registro.mail }}</strong></p>
+            <p>Hemos recibido la siguiente información:</p>
+            <p><strong>Nombre</strong>: <span class="label label-success">{{ registro.nombre|title }} {{ registro.paterno|title }} {{ registro.materno|title }}</span></p>
+            <p><strong>Actividad horario matutino: </strong>
+                {% for key,value in registro.actividadm if value %}
+                    <span class="label label-success"> {{ key |title}}</span>
+                {% endfor %}
+            </p>
+            <p><strong>Actividad horario vespertino: </strong>
+                {% for key,value in registro.actividadv if value %}
+                    <span class="label label-success">{{ key |title}}</span>
+                {% endfor %}
+            </p>
+            <p><strong>¿Deseas comida vegetariana?:</strong>
+                {% if registro.comida == true %}
+                    <span class="label label-success">Si</span>
+                {% else %}
+                    <span class="label label-danger">No</span>
+                {% endif %}
+            </p>
+            <p><strong>Playera:</strong>
+                {% if registro.sexo == true %}
+                    <span class="label label-success">Hombre</span>
+                {% else %}
+                    <span class="label label-success">Mujer</span>
+                {% endif %}
+                <span class="label label-success">{{ registro.playera }}</span>
+            </p>
+            <br>
+            <p class="text-justify alert-danger">En caso de no recibir este correo de confirmación, puedes verificar en tu
+                bandeja de correos no deseados o escribir al correo webmaster<i class="fa fa-at"></i>matmor.unam.mx para validar que hayamos recibido tu información.</p>
+        </div>
+
+        <div class="col-lg-7 col-lg-offset-5">
+            <a href="http://www.matmor.unam.mx/feria-matematica" type="button"  class="btn btn-primary">Finalizar</a>
+        </div>
+    {% else %}
+
+        {{ form_start(edit_form, {'action': path('registro_edit',{'id':registro.id, 'mail':registro.mail})}) }}
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="alert alert-info" role="alert">
+                    <h4>A través de este formulario podrás integrarte a las actividades de la Feria Matemática 2017</h4>
+                    <p class="text-justify">
+                        <small><i class="fa fa-circle small" aria-hidden="true"></i></small> Puedes seleccionar una actividad por cada horario (matutino, vespertino).<br>
+                        <small><i class="fa fa-circle small" aria-hidden="true"></i></small> Una vez que enviés el formulario ya no será posible modificar tu regsitro.<br>
+                        <small><i class="fa fa-circle small" aria-hidden="true"></i></small> Después de enviar el formulario recibirás un correo de confirmación a la dirección que nos proporcionaste,
+                        de no ser así puedes escribir a <br><strong>webmaster<i class="fa fa-at"></i>matmor.unam.mx</strong> para confirmar que se haya actualizado tu
+                        información.
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <div>
+                                    {{ form_label(edit_form.nombre) }}
+                                </div>
+                                {% if registro.nombre is not null or registro.nombre is not empty %}
+                                    <div>{{ form_widget(edit_form.nombre, {'attr': {'class': 'form-control input-sm', 'readonly': 'true'} } ) }}</div>
+                                {% endif %}
+                                <div>
+                                    {{ form_widget(edit_form.nombre, {'attr': {'class': 'form-control input-sm'} } ) }}
+                                </div>
+                                <div>{{ form_errors(edit_form.nombre) }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <div>
+                                    {{ form_label(edit_form.paterno) }}
+                                </div>
+                                {% if registro.paterno is not null or registro.paterno is not empty %}
+                                    <div>{{ form_widget(edit_form.paterno, {'attr': {'class': 'form-control input-sm', 'readonly': 'true'} } ) }}</div>
+                                {% endif %}
+                                <div>
+                                    {{ form_widget(edit_form.paterno, {'attr': {'class': 'form-control input-sm'} } ) }}
+                                </div>
+                                <div>{{ form_errors(edit_form.paterno) }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <div>
+                                    {{ form_label(edit_form.materno) }}
+                                </div>
+                                {% if registro.materno is not null or registro.materno is not empty %}
+                                    <div>{{ form_widget(edit_form.materno, {'attr': {'class': 'form-control input-sm', 'readonly': 'true'} } ) }}</div>
+                                {% endif %}
+                                <div>
+                                    {{ form_widget(edit_form.materno, {'attr': {'class': 'form-control input-sm'} } ) }}
+                                </div>
+                                <div>{{ form_errors(edit_form.materno) }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <div>{{ form_label(edit_form.mail) }}</div>
+                                {% if registro.mail is not null or registro.mail is not empty %}
+                                    <div>{{ form_widget(edit_form.mail, {'attr': {'class': 'form-control input-sm', 'readonly': 'true'} } ) }}</div>
+                                {% endif %}
+                                <div>{{ form_widget(edit_form.mail, {'attr': {'class': 'form-control input-sm'} } ) }}</div>
+                                <div>{{ form_errors(edit_form.mail) }}</div><br>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <div>{{ form_label(edit_form.institucion) }}</div>
+                                {% if registro.institucion is not null or registro.institucion is not empty %}
+                                    <div>{{ form_widget(edit_form.institucion, {'attr': {'class': 'form-control input-sm', 'readonly': 'true'} } ) }}</div>
+                                {% endif %}
+                                <div>{{ form_widget(edit_form.institucion, {'attr': {'class': 'form-control input-sm'} } ) }}</div>
+                                <div>{{ form_errors(edit_form.institucion) }}</div><br>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <div>{{ form_label(edit_form.carrera) }}</div>
+                                {% if registro.carrera is not null or registro.carrera is not empty %}
+                                    <div>{{ form_widget(edit_form.carrera, {'attr': {'class': 'form-control input-sm', 'readonly': 'true'} } ) }}</div>
+                                {% endif %}
+                                <div>{{ form_widget(edit_form.carrera, {'attr': {'class': 'form-control input-sm'} } ) }}</div>
+                                <div>{{ form_errors(edit_form.carrera) }}</div><br>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <div>{{ form_label(edit_form.comida) }}</div>
+                                <div>
+                                    {% spaceless %}
+                                        {% for child in edit_form.comida %}
+                                            <div class="radio-inline">
+                                                {{ form_widget(child) }}  {{ form_label(child, null, {'label_attr': {'class': 'btn btn-default btn-xs'}}) }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endspaceless %}
+                                </div>
+                                <div>{{ form_errors(edit_form.comida) }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <div>{{ form_label(edit_form.sexo) }}</div>
+                                <div>
+                                    {% spaceless %}
+                                        {% for child in edit_form.sexo %}
+                                            <div class="radio-inline">
+                                                {{ form_widget(child) }}  {{ form_label(child, null, {'label_attr': {'class': 'btn btn-default btn-xs'}}) }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endspaceless %}
+                                </div>
+                                <div>{{ form_errors(edit_form.sexo) }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <div>{{ form_label(edit_form.playera) }}</div>
+                                <div>{{ form_widget(edit_form.playera, {'attr': {'class': 'form-control input-sm'} } ) }}</div>
+                                <div>{{ form_errors(edit_form.playera) }}</div><br>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <br>
+                            <div><strong>Actividades</strong></div>
+                        </div>
+                        {{ form_errors(edit_form) }}
+                        <div class="col-lg-12">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-clock-o" aria-hidden="true"></i> Horario matutino</a></li>
+                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-clock-o" aria-hidden="true"></i> Horario vespertino</a></li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content ">
+                                <div role="tabpanel" class="tab-pane active" id="home">
+                                    <p class="text-info">Selecciona una actividad para el horario matutino</p>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            {% for key in edit_form.actividadm %}
+                                                <div class="col-md-6" >
+                                                    <div>
+                                                        {{ form_widget(key) }}
+                                                        {{ form_label(key) }}
+                                                    </div>
+
+                                                </div>
+                                                <div>{{ form_errors(key) }}</div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="profile">
+                                    <p class="text-info">Selecciona una actividad para el horario vespertino</p>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            {% for key in edit_form.actividadv %}
+                                                <div class="col-md-6" >
+                                                    <div>
+                                                        {{ form_widget(key) }}
+                                                        {{ form_label(key) }}
+                                                    </div>
+                                                    <div>{{ form_errors(key) }}</div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-7 col-sm-7 col-md-7 col-md-offset-5 col-sm-offset-5 col-lg-offset-5">
+                                <br>
+                                <input type="submit" value="Modificar registro" class="btn btn-success" />
+                            </div>
+                        </div>
+                        {{ form_end(edit_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    {% endif %}
+{% endblock %}

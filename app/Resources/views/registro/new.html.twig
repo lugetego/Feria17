@@ -1,0 +1,107 @@
+{% form_theme form 'registro/form_errors.html.twig' %}
+
+ {% block stylesheets %}
+     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+     <!-- Bootstrap core CSS -->
+     <link rel="stylesheet" href="{{ asset('bundles/registro/css/bootstrap.min.css') }}" type="text/css"/>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+ {% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+    <div class="alert alert-info">
+        <p class="text-primary"><h4>Si tienes algún problema con el formulario de registro puedes escribir a: <br>
+            <strong>webmaster<i class="fa fa-at"></i>matmor.unam.mx</strong></h4></p>
+    </div>
+
+    {{ form_start(form, {'action': path('registro_new')}) }}
+
+    {{ form_errors(form) }}
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-md-12">
+                    <div class="col-lg-4 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <div>
+                                {{ form_label(form.nombre) }}
+                            </div>
+                            <div>
+                                {{ form_widget(form.nombre, {'attr': {'class': 'form-control input-sm'} } )  }}
+                            </div>
+                            <div>{{ form_errors(form.nombre) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <div>
+                                {{ form_label(form.paterno) }}
+                            </div>
+                            <div>
+                                {{ form_widget(form.paterno, {'attr': {'class': 'form-control input-sm'} } )  }}
+                            </div>
+                            <div>{{ form_errors(form.paterno) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <div>
+                                {{ form_label(form.materno) }}
+                            </div>
+                            <div>
+                                {{ form_widget(form.materno, {'attr': {'class': 'form-control input-sm'} } )  }}
+                            </div>
+                            <div>{{ form_errors(form.materno) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <div>{{ form_label(form.mail) }}</div>
+                            <div>{{ form_widget(form.mail, {'attr': {'class': 'form-control input-sm'} } ) }}</div>
+                            {{ form_errors(form.mail) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <div>{{ form_label(form.instituciones) }}</div>
+                            <div>{{ form_widget(form.instituciones, {'attr': {'class': 'form-control input-sm'} } ) }}</div>
+                            <div>{{ form_errors(form.instituciones) }}</div><br>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <div>{{ form_label(form.institucion) }}</div>
+                            <div>{{ form_widget(form.institucion, {'attr': {'class': 'form-control input-sm', 'placeholder':'Escribe el nombre de tu Institución'} } ) }}</div>
+                            <div>{{ form_errors(form.institucion) }}</div><br>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-sm-8 col-md-8">
+                        <div class="form-group">
+                            <div>{{ form_label(form.carrera) }}</div>
+
+                            <div>{{ form_widget(form.carrera, {'attr': {'class': 'form-control input-sm'} } ) }}</div>
+
+
+                            <div>{{ form_errors(form.carrera) }}</div><br>
+                        </div>
+                    </div>
+
+                    {% if form.actividadm is defined %}
+                        <div>{{ form_label(form.actividadm) }}</div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-lg-7 col-sm-7 col-md-7 col-md-offset-5 col-sm-offset-5 col-lg-offset-5">
+                            <input type="submit" value="Registrar" class="btn btn-success" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+    </div>
+{% endblock %}
